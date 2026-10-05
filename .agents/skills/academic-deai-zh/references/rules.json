@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "authorship_detector": false,
+  "rules": [
+    {
+      "id": "R01",
+      "name": "正文预告或聊天壳",
+      "pattern": "接下来(?:让我们)?(?:来)?(?:深入)?(?:探讨|看看)|让我们(?:来)?(?:深入)?(?:探讨|看看)|(?:^|\\n)(?:当然[！!]|好问题[！!])|希望(?:以上|这些).{0,16}(?:帮助|有用)",
+      "note": "只有无独立信息的正文预告/聊天壳才删；正式研究目的保留",
+      "condition": "句子只宣布要讲述，不携带对象范围、工作进度或研究目的",
+      "action": "删除无信息壳或合并进入原文已有对象的主句",
+      "counterexample": "本研究旨在评估康复训练与步行距离的关联。",
+      "tests": [
+        "shell_benefit",
+        "normal_purpose"
+      ],
+      "locator": "regex",
+      "enabled": true,
+      "genres": [
+        "paper",
+        "grant",
+        "review",
+        "report"
+      ],
+      "sections": "上下文审阅；高风险段更保守",
+      "candidate_only": true,
+      "evidence_type": "external_experience_project_contract_and_local_model_context_review",
+      "status": "context_only_locator_locally_reviewed_sparse_evidence",
+      "evidence": "Development: 177 published + 48 GLM paragraphs; all 9 hits plus 24 approximate nonmatches reviewed by session Codex and GLM. Only R02 had 2 optional edit candidates. No authorship signal or blanket deletion evidence.",
+      "test_ids": [
+        "CoreRegression.test_shell_benefit_actual_patch_applied",
+        "CoreRegression.test_injection_is_only_data"
+      ],
+      "allowed_action": "删除无信息壳或合并进入原文已有对象的主句",
+      "must_keep_counterexample": "本研究旨在评估康复训练与步行距离的关联。",
+      "context_condition": "句子只宣布要讲述，不携带对象范围、工作进度或研究目的",
+      "local_review": {
+        "matched_contexts": 0,
+        "approximate_nonmatches": 4,
+        "codex_decisions": {
+          "keep": 4
+        },
+        "glm_decisions": {
+          "keep": 4
+        },
+        "human_reviews": 0
+      }
+    },
+    {
+      "id": "R02",
+      "name": "冗余动作包装",
+      "pattern": "进行(?:全面|深入|进一步|系统性)?(?:分析|研究|测试|检查|探讨)",
+      "note": "有语法冗余时直接用动作动词；正式方法和专业搭配可保留",
+      "condition": "移除进行后，动作的对象、范围、状态和方法不变且语句更顺",
+      "action": "直接用原来的动词",
+      "counterexample": "采用线性混合模型进行重复测量分析。",
+      "tests": [
+        "nominal_benefit",
+        "method_noop"
+      ],
+      "locator": "regex",
+      "enabled": true,
+      "genres": [
+        "paper",
+        "grant",
+        "review",
+        "report"
+      ],
+      "sections": "上下文审阅；高风险段更保守",
+      "candidate_only": true,
+      "evidence_type": "external_experience_project_contract_and_local_model_context_review",
+      "status": "context_only_locator_locally_reviewed_sparse_evidence",
+      "evidence": "Development: 177 published + 48 GLM paragraphs; all 9 hits plus 24 approximate nonmatches reviewed by session Codex and GLM. Only R02 had 2 optional edit candidates. No authorship signal or blanket deletion evidence.",
+      "test_ids": [
+        "CoreRegression.test_candidate_not_automatic_edit",
+        "CoreRegression.test_valid_paragraph_rewrite_with_visible_numeric_anchors"
+      ],
+      "allowed_action": "直接用原来的动词",
+      "must_keep_counterexample": "采用线性混合模型进行重复测量分析。",
+      "context_condition": "移除进行后，动作的对象、范围、状态和方法不变且语句更顺",
+      "local_review": {
+        "matched_contexts": 3,
+        "approximate_nonmatches": 4,
+        "codex_decisions": {
+          "edit_candidate": 2,
+          "keep": 5
+        },
+        "glm_decisions": {
+          "edit_candidate": 2,
+          "keep": 5
+        },
+        "human_reviews": 0
+      }
+    },
+    {
+      "id": "R03",
+      "name": "空泛拔高候选",
+      "pattern": "开启.{0,15}(?:新篇章|新时代)|标志着.{0,20}(?:新时代|新篇章)|具有(?:十分|极其|非常)重要的(?:意义|价值)",
+      "note": "独立价值或创新主张不可偷偷删；仅重复包装可简化",
+      "condition": "评价确实不承载独立主张，或完全重复同段已明确内容",
+      "action": "删除可证实无信息的重复包装；独立主张只诊断",
+      "counterexample": "作者认为该方法具有重要的临床意义，但尚需前瞻性验证。",
+      "tests": [
+        "inflate_boundary",
+        "stance_noop"
+      ],
+      "locator": "regex",
+      "enabled": true,
+      "genres": [
+        "paper",
+        "grant",
+        "review",
+        "report"
+      ],
+      "sections": "上下文审阅；高风险段更保守",
+      "candidate_only": true,
+      "evidence_type": "external_experience_project_contract_and_local_model_context_review",
+      "status": "context_only_locator_locally_reviewed_sparse_evidence",
+      "evidence": "Development: 177 published + 48 GLM paragraphs; all 9 hits plus 24 approximate nonmatches reviewed by session Codex and GLM. Only R02 had 2 optional edit candidates. No authorship signal or blanket deletion evidence.",
+      "test_ids": [
+        "CoreRegression.test_candidate_not_automatic_edit",
+        "CoreRegression.test_highrisk_methods_automatically_conservative"
+      ],
+      "allowed_action": "删除可证实无信息的重复包装；独立主张只诊断",
+      "must_keep_counterexample": "作者认为该方法具有重要的临床意义，但尚需前瞻性验证。",
+      "context_condition": "评价确实不承载独立主张，或完全重复同段已明确内容",
+      "local_review": {
+        "matched_contexts": 0,
+        "approximate_nonmatches": 4,
+        "codex_decisions": {
+          "keep": 4
+        },
+        "glm_decisions": {
+          "keep": 4
+        },
+        "human_reviews": 0
+      }
+    },
+    {
+      "id": "R04",
+      "name": "总结或评论包装",
+      "pattern": "综上所述|总而言之|值得注意的是|不难发现|毋庸置疑",
+      "note": "核对论证和强调功能；不能删除证据强度或作者判断",
+      "condition": "连接或评论没有新增论证层级，且删后指代和立场不变",
+      "action": "删局部重复连接；核查无来源强断言并单独提示",
+      "counterexample": "值得注意的是，阴性结果不等于干预无效。",
+      "tests": [
+        "transition_benefit",
+        "negation_noop"
+      ],
+      "locator": "regex",
+      "enabled": true,
+      "genres": [
+        "paper",
+        "grant",
+        "review",
+        "report"
+      ],
+      "sections": "上下文审阅；高风险段更保守",
+      "candidate_only": true,
+      "evidence_type": "external_experience_project_contract_and_local_model_context_review",
+      "status": "context_only_locator_locally_reviewed_sparse_evidence",
+      "evidence": "Development: 177 published + 48 GLM paragraphs; all 9 hits plus 24 approximate nonmatches reviewed by session Codex and GLM. Only R02 had 2 optional edit candidates. No authorship signal or blanket deletion evidence.",
+      "test_ids": [
+        "CoreRegression.test_candidate_not_automatic_edit",
+        "CoreRegression.test_zero_regex_hits_still_semantic_diagnosis"
+      ],
+      "allowed_action": "删局部重复连接；核查无来源强断言并单独提示",
+      "must_keep_counterexample": "值得注意的是，阴性结果不等于干预无效。",
+      "context_condition": "连接或评论没有新增论证层级，且删后指代和立场不变",
+      "local_review": {
+        "matched_contexts": 3,
+        "approximate_nonmatches": 4,
+        "codex_decisions": {
+          "keep": 7
+        },
+        "glm_decisions": {
+          "keep": 7
+        },
+        "human_reviews": 0
+      }
+    },
+    {
+      "id": "R05",
+      "name": "通用背景候选",
+      "pattern": "随着.{0,30}(?:不断发展|不断进步|快速发展)|在当今.{0,15}(?:时代|背景)",
+      "note": "真实时间条件与背景关系保留；空泛且重复的背景可简化",
+      "condition": "背景不携带独立时间/条件，且重复正文明确主题",
+      "action": "局部简化或删除纯壳；不要补具体历史或因果",
+      "counterexample": "随着随访时间延长，失访比例增加。",
+      "tests": [
+        "background_boundary",
+        "condition_noop"
+      ],
+      "locator": "regex",
+      "enabled": true,
+      "genres": [
+        "paper",
+        "grant",
+        "review",
+        "report"
+      ],
+      "sections": "上下文审阅；高风险段更保守",
+      "candidate_only": true,
+      "evidence_type": "external_experience_project_contract_and_local_model_context_review",
+      "status": "context_only_locator_locally_reviewed_sparse_evidence",
+      "evidence": "Development: 177 published + 48 GLM paragraphs; all 9 hits plus 24 approximate nonmatches reviewed by session Codex and GLM. Only R02 had 2 optional edit candidates. No authorship signal or blanket deletion evidence.",
+      "test_ids": [
+        "CoreRegression.test_candidate_not_automatic_edit",
+        "CoreRegression.test_zero_regex_hits_still_semantic_diagnosis"
+      ],
+      "allowed_action": "局部简化或删除纯壳；不要补具体历史或因果",
+      "must_keep_counterexample": "随着随访时间延长，失访比例增加。",
+      "context_condition": "背景不携带独立时间/条件，且重复正文明确主题",
+      "local_review": {
+        "matched_contexts": 3,
+        "approximate_nonmatches": 4,
+        "codex_decisions": {
+          "keep": 7
+        },
+        "glm_decisions": {
+          "keep": 7
+        },
+        "human_reviews": 0
+      }
+    },
+    {
+      "id": "R06",
+      "name": "相邻完整句重复",
+      "pattern": "",
+      "locator": "duplicate_sentence",
+      "note": "定位完全重复句，仍需判断强调/转述/结构用途",
+      "condition": "同一上下文中再次陈述相同完整命题，未承担对照或不同来源功能",
+      "action": "保留一处，确认来源、限定和衔接完整",
+      "counterexample": "甲研究认为X[1]；乙研究同样认为X[2]。",
+      "tests": [
+        "duplicate_benefit",
+        "attribution_noop"
+      ],
+      "enabled": true,
+      "genres": [
+        "paper",
+        "grant",
+        "review",
+        "report"
+      ],
+      "sections": "上下文审阅；高风险段更保守",
+      "candidate_only": true,
+      "evidence_type": "external_experience_project_contract_and_local_model_context_review",
+      "status": "context_only_locator_locally_reviewed_sparse_evidence",
+      "evidence": "Development: 177 published + 48 GLM paragraphs; all 9 hits plus 24 approximate nonmatches reviewed by session Codex and GLM. Only R02 had 2 optional edit candidates. No authorship signal or blanket deletion evidence.",
+      "test_ids": [
+        "CoreRegression.test_adjacent_repeated_sentence_is_r06",
+        "CoreRegression.test_nonadjacent_repeated_sentence_not_r06"
+      ],
+      "allowed_action": "保留一处，确认来源、限定和衔接完整",
+      "must_keep_counterexample": "甲研究认为X[1]；乙研究同样认为X[2]。",
+      "context_condition": "同一上下文中再次陈述相同完整命题，未承担对照或不同来源功能",
+      "local_review": {
+        "matched_contexts": 0,
+        "approximate_nonmatches": 4,
+        "codex_decisions": {
+          "keep": 4
+        },
+        "glm_decisions": {
+          "keep": 4
+        },
+        "human_reviews": 0
+      }
+    }
+  ]
+}

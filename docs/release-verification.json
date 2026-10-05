@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "version": "1.5.0",
+  "verified_on": "2026-10-05",
+  "public_files": 37,
+  "offline_public_tests": {
+    "passed": true,
+    "tests_run": 290
+  },
+  "local_platform": "Windows",
+  "python_version": "3.12.10",
+  "fresh_public_source_tested": true,
+  "unicode_and_space_path_tested": true,
+  "skill_validation_passed": true,
+  "original_bytes_bom_and_newlines_tested": true,
+  "deterministic_zip_tested": true,
+  "existing_install_and_release_refused": true,
+  "editing_logic_unchanged_from_1_4_0": true,
+  "patch_schema": "1.0",
+  "zip_sha256": "33ae2ac1532551de16ae0bd83284851acbb732536bd5f65bc5853eff0ec962ad",
+  "model_calls": 0,
+  "human_review": false,
+  "writing_efficacy_proven": false,
+  "cross_platform_results": "See GitHub Actions for runs against the exact commit."
+}
