@@ -1,11 +1,28 @@
-# academic-deai-zh · 中文学术保真编辑
+# academic-deai-zh · 中文学术文本去 AI 味
 
 [![CI](https://github.com/Brighthao18/academic-deai-zh/actions/workflows/ci.yml/badge.svg)](https://github.com/Brighthao18/academic-deai-zh/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-面向中文论文、课题申请、综述与研究汇报的 Codex Skill，优先支持医学与生命科学。先定位重复、空泛、含混或难读的表达，再在保留事实、数字、引文、限定条件和作者立场的前提下做最小修改。
+**专注中文学术文本去 AI 味**的 Codex Skill。面向论文、课题申请、综述与研究汇报，优先支持医学与生命科学，帮助改善模板腔、空泛套话、重复铺垫和机械衔接，让文字更自然、清楚。
 
-Codex 会话负责理解、编辑和语义复核；本地 Python 工具负责定位、计算补丁、检查、回退与导出。独立 CLI 不调用模型，不能自行完成语义改写或证明完全等义，也不判断作者身份或优化 AI 检测器分数。
+去 AI 味的同时，保留事实、数字、专业术语、引文、限定条件和作者立场。保留学术语体，优先修改有明确阅读问题的表达；已经清楚的文字可以原样保留。
+
+## 主要改善哪些表达
+
+| 常见问题 | 编辑重点 |
+|---|---|
+| 模板腔和空泛评价 | 清理没有承载实际信息的铺垫与包装，让研究问题和证据更突出 |
+| 重复预告和小结 | 合并确实重复的内容，保留独有的主题、范围和研究目的 |
+| 机械衔接和生硬句式 | 依据实际逻辑整理句子与段落衔接，改善翻译腔和难读表达 |
+| 冗余表达和含混指代 | 用原文已有信息直接表达动作，明确对象与指代 |
+
+合成示例，仅示意局部表达调整：
+
+> 原文：本研究拟对问卷条目进行逐项核对工作。
+>
+> 改后：本研究拟逐项核对问卷条目。
+
+整理冗余句法，同时保留“拟开展”的研究状态、核对对象和逐项范围。
 
 ## 安装与调用
 
@@ -27,7 +44,7 @@ python -X utf8 tools/install_skill.py
 安装后直接输入：
 
 ```text
-用 $academic-deai-zh 改善这段论文讨论，采用 standard 模式。
+用 $academic-deai-zh 给这段论文讨论去 AI 味，采用 standard 模式。
 保留医学术语、全部事实、数字、条件、研究状态和引文；输出新文件。
 ```
 
@@ -36,6 +53,8 @@ python -X utf8 tools/install_skill.py
 也可从 [Releases](https://github.com/Brighthao18/academic-deai-zh/releases) 下载独立 Skill ZIP。解压后将完整 `academic-deai-zh` 文件夹放入项目或用户的 `.agents/skills`；已有安装时先自行保留副本，再选择新的目标位置。
 
 ## 本地工具
+
+Codex 会话负责理解、编辑和语义复核；本地 Python 工具负责定位、计算补丁、检查、回退与导出。独立 CLI 不调用模型，不能自行完成语义改写或证明完全等义。
 
 以下命令只准备任务，不生成改稿。示例是合成材料，没有真实研究数据：
 
@@ -66,7 +85,7 @@ python -X utf8 tools/build_release.py --output-dir dist
 
 工程测试覆盖保护区、数字与组别绑定、限定词作用范围、陈旧哈希、补丁事务、回退、上下文引文、导出原稿保护及独立发行包。测试中的语义审阅是明确标记的模拟样例，不是模型调用或人工金标准。CI 在 Windows、Linux 与多个 Python 版本执行这些检查。
 
-目前没有证据证明本工具总体写作效果优于普通保真提示词；不能根据工程测试宣称效果。详见 [验证边界](docs/validation.md)。
+“去 AI 味”指改善表达，本工具不判断作者身份或优化 AI 检测器分数。目前没有证据证明本工具总体写作效果优于普通保真提示词；不能根据工程测试宣称效果。详见 [验证边界](docs/validation.md)。
 
 ## 开源范围与贡献
 
